@@ -23,12 +23,13 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             Card(
+              margin: EdgeInsets.only(left: 16.0, right: 16.0),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(16.0),
+                  Align(
+                    alignment: Alignment.bottomRight,
                     child: Chip(
                       label: Text(
                         'BIRTHDAY',
@@ -80,13 +81,30 @@ class HomeScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(
-                'My Wishlist',
+                'Suggested For You',
                 style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500),
               ),
             ),
             Padding(
-                padding: EdgeInsets.all(16.0),
-                child: Text('No items currently in your wishlist'))
+              padding: EdgeInsets.all(16.0),
+              child: Center(
+                child: Text(
+                  'Add interests to your profile to see our recommendations!',
+                ),
+              ),
+            ),
+            Center(
+              child: RaisedButton(
+                color: Colors.purple[500],
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0)),
+                child: Text(
+                  'Update Profile',
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
       ),

@@ -20,74 +20,74 @@ class LoginScreenState extends State<LoginScreen> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-               Expanded(
-                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-
-                  children: <Widget>[
-                    Image.asset("assets/images/presently-logo.png",
-                        fit: BoxFit.contain),
-                    Theme(
-                      data: ThemeData(
-                        primaryColor: Colors.white,
-                      ),
-                      child: Form(
-                        key: _loginFormKey,
-                        child: Column(
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(labelText: 'Email'),
-                              ),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset("assets/images/presently-logo.png",
+                      fit: BoxFit.contain),
+                  Theme(
+                    data: ThemeData(
+                      primaryColor: Colors.white,
+                    ),
+                    child: Form(
+                      key: _loginFormKey,
+                      child: Column(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(labelText: 'Email'),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 16.0),
-                              child: TextFormField(
-                                obscureText: true,
-                                decoration:
-                                    InputDecoration(labelText: 'Password'),
-                              ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16.0),
+                            child: TextFormField(
+                              obscureText: true,
+                              decoration:
+                                  InputDecoration(labelText: 'Password'),
                             ),
-                            Container(
-                              width: 200.0,
-                              child: RaisedButton(
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(100.0)),
-                                onPressed: () => Navigator.of(context)
-                                    .pushNamedAndRemoveUntil('home', (Route<dynamic> route) => false),
-                                color: Colors.white,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(12.0),
-                                  child: Text(
-                                    'LOGIN',
-                                    style: TextStyle(
-                                      color: Theme.of(context).accentColor,
-                                      fontSize: 20.0,
-                                    ),
+                          ),
+                          Container(
+                            width: 200.0,
+                            child: RaisedButton(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(100.0)),
+                              onPressed: () => Navigator.of(context)
+                                  .pushNamedAndRemoveUntil('navbar',
+                                      (Route<dynamic> route) => false),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                  'LOGIN',
+                                  style: TextStyle(
+                                    color: Theme.of(context).accentColor,
+                                    fontSize: 20.0,
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: FlatButton(
-                                onPressed: () {},
-                                textColor: Colors.white,
-                                child: Text(
-                                  'Forgot Password?',
-                                  style: TextStyle(fontSize: 20.0),
-                                ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: FlatButton(
+                              onPressed: () {},
+                              textColor: Colors.white,
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(fontSize: 20.0),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
+                ],
+              ),
             ),
-               ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

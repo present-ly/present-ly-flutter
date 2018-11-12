@@ -17,15 +17,18 @@ class FriendListScreen extends StatelessWidget {
         },
         backgroundColor: Colors.purple,
         foregroundColor: Colors.white,
-        child: Icon(Icons.add),
+        child: Icon(Icons.person_add),
       ),
       body: Container(
         child: ListView(
           children: <Widget>[
             ListTile(
               leading: CircleAvatar(
-                backgroundColor: Colors.grey,
-                child: Text('JD'),
+                backgroundColor: Colors.cyan,
+                child: Text(
+                  'JD',
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
               title: Text('Jane Doe'),
               subtitle: Text('Birthday: January 15th'),

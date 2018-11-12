@@ -35,7 +35,7 @@ class PresentlyTabBarState extends State<PresentlyTabBar> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.home), title: Text('Home')),
             BottomNavigationBarItem(
-                icon: Icon(Icons.person_add), title: Text('Friends')),
+                icon: Icon(Icons.group), title: Text('Friends')),
             BottomNavigationBarItem(
                 icon: Icon(Icons.add_shopping_cart), title: Text('Cart')),
           ],

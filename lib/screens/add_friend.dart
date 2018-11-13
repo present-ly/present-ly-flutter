@@ -71,6 +71,11 @@ class AddFriendState extends State<AddFriend> {
 
   @override
   Widget build(BuildContext context) {
+    generateTextEditingControllers();
+    List<Widget> list = List.generate(
+      eventNumber,
+      (int i) => EventField(context, i),
+    );
     List<Step> steps = [
       Step(
         title: Text('Name'),
@@ -121,108 +126,80 @@ class AddFriendState extends State<AddFriend> {
         ),
       ),
       Step(
-        title: Text('Events'),
-        isActive: true,
-        state: StepState.indexed,
-        content: RaisedButton(
-          onPressed: () => setState(() => this.eventNumber++),
-          child: Text('Add New Event'),
-        ),
-      ),
+          title: Text('Events'),
+          isActive: true,
+          state: StepState.indexed,
+          content: Column(
+            children: <Widget>[
+              Column(children: list),
+              RaisedButton(
+                onPressed: () => setState(() => this.eventNumber++),
+                child: Text('Add New Event'),
+              ),
+            ],
+          )),
     ];
-    generateTextEditingControllers();
-    List<Widget> list = List.generate(
-      eventNumber,
-      (int i) => EventField(context, i),
-    );
+
     return Scaffold(
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(title: Text('Add New Friend')),
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.0),
-        child: Form(
-          key: this._createFriendFormKey,
-          child: ListView(
-            children: <Widget>[
-              Stepper(
-                steps: steps,
-                type: StepperType.vertical,
-                currentStep: this.currStep,
-                onStepContinue: () {
-                  setState(() {
-                    if (currStep < steps.length - 1) {
-                      currStep = currStep + 1;
-                    } else {
-                      currStep = 0;
-                    }
-                  });
-                },
-                onStepCancel: () {
-                  setState(() {
-                    if (currStep > 0) {
-                      currStep = currStep - 1;
-                    } else {
-                      currStep = 0;
-                    }
-                  });
-                },
-                onStepTapped: (step) {
-                  setState(() {
-                    currStep = step;
-                  });
-                },
-              ),
-              // TextFormField(
-              //   decoration: InputDecoration(labelText: 'First Name'),
-              //   textCapitalization: TextCapitalization.words,
-              //   onSaved: (value) => friend.firstName = value,
-              // ),
-              // TextFormField(
-              //   decoration: InputDecoration(labelText: 'Last Name'),
-              //   textCapitalization: TextCapitalization.words,
-              //   onSaved: (value) => friend.lastName = value,
-              // ),
-              // TextFormField(
-              //   keyboardType: TextInputType.emailAddress,
-              //   decoration: InputDecoration(labelText: 'Email'),
-              //   onSaved: (value) => friend.email = value,
-              // ),
-              // TextFormField(
-              //   keyboardType: TextInputType.phone,
-              //   decoration: InputDecoration(labelText: 'Phone'),
-              //   onSaved: (value) => friend.phoneNumber = value,
-              // ),
-              // TextFormField(
-              //   decoration: InputDecoration(
-              //       labelText: "Relationship (e.g., spouse)"),
-              //   onSaved: (value) => friend.relationship = value,
-              // ),
-              // Column(children: list),
-              // RaisedButton(
-              //   onPressed: () => setState(() => this.eventNumber++),
-              //   child: Text('Add New Event'),
-              // ),
-              Padding(
-                padding: EdgeInsets.only(top: 20.0),
-              ),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0),
+      body: SingleChildScrollView(
+        child: Container(
+          margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          child: Form(
+            key: this._createFriendFormKey,
+            child: Column(
+              children: <Widget>[
+                Stepper(
+                  steps: steps,
+                  type: StepperType.vertical,
+                  currentStep: this.currStep,
+                  onStepContinue: () {
+                    setState(() {
+                      if (currStep < steps.length - 1) {
+                        currStep = currStep + 1;
+                      } else {
+                        currStep = 0;
+                      }
+                    });
+                  },
+                  onStepCancel: () {
+                    setState(() {
+                      if (currStep > 0) {
+                        currStep = currStep - 1;
+                      } else {
+                        currStep = 0;
+                      }
+                    });
+                  },
+                  onStepTapped: (step) {
+                    setState(() {
+                      currStep = step;
+                    });
+                  },
                 ),
-                onPressed: () => submitAddFriendForm(),
-                color: Theme.of(context).accentColor,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20.0,
+                Padding(
+                  padding: EdgeInsets.only(top: 20.0),
+                ),
+                RaisedButton(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100.0),
+                  ),
+                  onPressed: () => submitAddFriendForm(),
+                  color: Theme.of(context).accentColor,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Text(
+                      'Submit',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

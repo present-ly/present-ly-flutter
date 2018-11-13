@@ -12,11 +12,12 @@ class AddFriend extends StatefulWidget {
 class AddFriendState extends State<AddFriend> {
   List<TextEditingController> eventTextControllers = [];
   List<DateTime> eventDates = [];
+  int currStep = 0;
   int eventNumber = 1;
   final DateTime _date = DateTime.now();
   final _createFriendFormKey = GlobalKey<FormState>();
   final DatabaseService db = new DatabaseService();
-  final FriendModel friend = new FriendModel(
+  FriendModel friend = new FriendModel(
     '',
     '',
     '',
@@ -68,6 +69,68 @@ class AddFriendState extends State<AddFriend> {
     this.eventDates[index] = event;
   }
 
+ List<Step> steps = [
+    Step(
+      title: Text('First Name'),
+      isActive: true,
+      state: StepState.indexed,
+      content: TextFormField(
+        decoration: InputDecoration(labelText: 'First Name'),
+        textCapitalization: TextCapitalization.words,
+        onSaved: (value) => this.friend.firstName = value,
+      ),
+    ),
+    Step(
+      title: Text('Last Name'),
+      isActive: true,
+      state: StepState.indexed,
+      content: TextFormField(
+        decoration: InputDecoration(labelText: 'Last Name'),
+        textCapitalization: TextCapitalization.words,
+        onSaved: (value) => friend.lastName = value,
+      ),
+    ),
+    Step(
+      title: Text('Email'),
+      isActive: true,
+      state: StepState.indexed,
+      content: TextFormField(
+        keyboardType: TextInputType.emailAddress,
+        decoration: InputDecoration(labelText: 'Email'),
+        onSaved: (value) => friend.email = value,
+      ),
+    ),
+    Step(
+      title: Text('Phone'),
+      isActive: true,
+      state: StepState.indexed,
+      content: TextFormField(
+        keyboardType: TextInputType.phone,
+        decoration: InputDecoration(labelText: 'Phone'),
+        onSaved: (value) => friend.phoneNumber = value,
+      ),
+    ),
+    Step(
+      title: Text('Relationship'),
+      isActive: true,
+      state: StepState.indexed,
+      content: TextFormField(
+        decoration: InputDecoration(labelText: "Relationship (e.g., spouse)"),
+        onSaved: (value) => friend.relationship = value,
+      ),
+    ),
+    Step(
+      title: Text('Events'),
+      isActive: true,
+      state: StepState.indexed,
+      content: RaisedButton(
+        onPressed: () => setState(() => this.eventNumber++),
+        child: Text('Add New Event'),
+      ),
+    ),
+  ];
+}
+
   @override
   Widget build(BuildContext context) {
     generateTextEditingControllers();
@@ -84,38 +147,66 @@ class AddFriendState extends State<AddFriend> {
           children: <Widget>[
             Form(
               key: this._createFriendFormKey,
-              child: Column(
+              child: ListView(
                 children: <Widget>[
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'First Name'),
-                    textCapitalization: TextCapitalization.words,
-                    onSaved: (value) => friend.firstName = value,
+                  Stepper(
+                    steps: steps,
+                    type: StepperType.vertical,
+                    currentStep: this.currStep,
+                    onStepContinue: () {
+                      setState(() {
+                        if (currStep < steps.length - 1) {
+                          currStep = currStep + 1;
+                        } else {
+                          currStep = 0;
+                        }
+                      });
+                    },
+                    onStepCancel: () {
+                      setState(() {
+                        if (currStep > 0) {
+                          currStep = currStep - 1;
+                        } else {
+                          currStep = 0;
+                        }
+                      });
+                    },
+                    onStepTapped: (step) {
+                      setState(() {
+                        currStep = step;
+                      });
+                    },
                   ),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: 'Last Name'),
-                    textCapitalization: TextCapitalization.words,
-                    onSaved: (value) => friend.lastName = value,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    decoration: InputDecoration(labelText: 'Email'),
-                    onSaved: (value) => friend.email = value,
-                  ),
-                  TextFormField(
-                    keyboardType: TextInputType.phone,
-                    decoration: InputDecoration(labelText: 'Phone'),
-                    onSaved: (value) => friend.phoneNumber = value,
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(
-                        labelText: "Relationship (e.g., spouse)"),
-                    onSaved: (value) => friend.relationship = value,
-                  ),
-                  Column(children: list),
-                  RaisedButton(
-                    onPressed: () => setState(() => this.eventNumber++),
-                    child: Text('Add New Event'),
-                  ),
+                  // TextFormField(
+                  //   decoration: InputDecoration(labelText: 'First Name'),
+                  //   textCapitalization: TextCapitalization.words,
+                  //   onSaved: (value) => friend.firstName = value,
+                  // ),
+                  // TextFormField(
+                  //   decoration: InputDecoration(labelText: 'Last Name'),
+                  //   textCapitalization: TextCapitalization.words,
+                  //   onSaved: (value) => friend.lastName = value,
+                  // ),
+                  // TextFormField(
+                  //   keyboardType: TextInputType.emailAddress,
+                  //   decoration: InputDecoration(labelText: 'Email'),
+                  //   onSaved: (value) => friend.email = value,
+                  // ),
+                  // TextFormField(
+                  //   keyboardType: TextInputType.phone,
+                  //   decoration: InputDecoration(labelText: 'Phone'),
+                  //   onSaved: (value) => friend.phoneNumber = value,
+                  // ),
+                  // TextFormField(
+                  //   decoration: InputDecoration(
+                  //       labelText: "Relationship (e.g., spouse)"),
+                  //   onSaved: (value) => friend.relationship = value,
+                  // ),
+                  // Column(children: list),
+                  // RaisedButton(
+                  //   onPressed: () => setState(() => this.eventNumber++),
+                  //   child: Text('Add New Event'),
+                  // ),
                   Padding(
                     padding: EdgeInsets.only(top: 20.0),
                   ),

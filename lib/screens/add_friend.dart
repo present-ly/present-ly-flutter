@@ -61,11 +61,11 @@ class AddFriendState extends State<AddFriend> {
 
   Future<Null> selectDate(BuildContext context, int index) async {
     final DateTime event = await showDatePicker(
-      context: context,
-      initialDate: _date,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2020),
-    );
+        context: context,
+        initialDate: _date,
+        firstDate: DateTime(1900),
+        lastDate: DateTime(2020),
+        initialDatePickerMode: DatePickerMode.year,);
     this.eventDates[index] = event;
   }
 

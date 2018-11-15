@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presently/blocs/friend_bloc.dart';
 import 'package:presently/models/friend.dart';
 import 'package:presently/services/db.dart';
 
@@ -16,7 +17,7 @@ class AddFriendState extends State<AddFriend> {
   int eventNumber = 1;
   final DateTime _date = DateTime.now();
   final _createFriendFormKey = GlobalKey<FormState>();
-  final DatabaseService db = new DatabaseService();
+  final DatabaseService db = dbService;
   FriendModel friend = new FriendModel(
     '',
     '',
@@ -50,22 +51,24 @@ class AddFriendState extends State<AddFriend> {
     }
   }
 
-  submitAddFriendForm() {
+  submitAddFriendForm(context) async {
     this._createFriendFormKey.currentState.save();
     for (var i = 0; i < eventNumber; i++) {
       friend.events.add(
           {eventTextControllers[i].text: eventDates[i].millisecondsSinceEpoch});
     }
-    this.db.addFriend(friend);
+    await this.db.addFriend(friend);
+    Navigator.of(context).pop();
   }
 
   Future<Null> selectDate(BuildContext context, int index) async {
     final DateTime event = await showDatePicker(
-        context: context,
-        initialDate: _date,
-        firstDate: DateTime(1900),
-        lastDate: DateTime(2020),
-        initialDatePickerMode: DatePickerMode.year,);
+      context: context,
+      initialDate: _date,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2020),
+      initialDatePickerMode: DatePickerMode.year,
+    );
     this.eventDates[index] = event;
   }
 
@@ -140,65 +143,67 @@ class AddFriendState extends State<AddFriend> {
           )),
     ];
 
-    return Scaffold(
-      resizeToAvoidBottomPadding: false,
-      appBar: AppBar(title: Text('Add New Friend')),
-      body: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-          child: Form(
-            key: this._createFriendFormKey,
-            child: Column(
-              children: <Widget>[
-                Stepper(
-                  steps: steps,
-                  type: StepperType.vertical,
-                  currentStep: this.currStep,
-                  onStepContinue: () {
-                    setState(() {
-                      if (currStep < steps.length - 1) {
-                        currStep = currStep + 1;
-                      } else {
-                        currStep = 0;
-                      }
-                    });
-                  },
-                  onStepCancel: () {
-                    setState(() {
-                      if (currStep > 0) {
-                        currStep = currStep - 1;
-                      } else {
-                        currStep = 0;
-                      }
-                    });
-                  },
-                  onStepTapped: (step) {
-                    setState(() {
-                      currStep = step;
-                    });
-                  },
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20.0),
-                ),
-                RaisedButton(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(100.0),
+    return FriendsProvider(
+      child: Scaffold(
+        resizeToAvoidBottomPadding: false,
+        appBar: AppBar(title: Text('Add New Friend')),
+        body: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+            child: Form(
+              key: this._createFriendFormKey,
+              child: Column(
+                children: <Widget>[
+                  Stepper(
+                    steps: steps,
+                    type: StepperType.vertical,
+                    currentStep: this.currStep,
+                    onStepContinue: () {
+                      setState(() {
+                        if (currStep < steps.length - 1) {
+                          currStep = currStep + 1;
+                        } else {
+                          currStep = 0;
+                        }
+                      });
+                    },
+                    onStepCancel: () {
+                      setState(() {
+                        if (currStep > 0) {
+                          currStep = currStep - 1;
+                        } else {
+                          currStep = 0;
+                        }
+                      });
+                    },
+                    onStepTapped: (step) {
+                      setState(() {
+                        currStep = step;
+                      });
+                    },
                   ),
-                  onPressed: () => submitAddFriendForm(),
-                  color: Theme.of(context).accentColor,
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      'Submit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
+                  Padding(
+                    padding: EdgeInsets.only(top: 20.0),
+                  ),
+                  RaisedButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(100.0),
+                    ),
+                    onPressed: () => submitAddFriendForm(context),
+                    color: Theme.of(context).accentColor,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Text(
+                        'Submit',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

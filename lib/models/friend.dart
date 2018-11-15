@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:convert';
 
 class FriendModel {
@@ -9,7 +10,7 @@ class FriendModel {
   String profilePicture;
   String relationship;
   List<String> interests;
-  List<Map<String, int>> events;
+  List<Map<String, dynamic>> events;
 
   FriendModel(this.firstName, this.lastName, this.email, this.phoneNumber,
       this.profilePicture, this.relationship, this.interests, this.events);
@@ -19,11 +20,12 @@ class FriendModel {
         firstName = rawSQL['firstName'],
         lastName = rawSQL['lastName'],
         email = rawSQL['email'],
-        phoneNumber = rawSQL['phoneNumber'],
+        phoneNumber = "$rawSQL['phoneNumber']",
         profilePicture = rawSQL['profilePicture'],
         relationship = rawSQL['relationship'],
-        interests = jsonDecode(rawSQL['interests']),
-        events = jsonDecode(rawSQL['events']);
+        interests = new List<String>.from(jsonDecode(rawSQL['interests'])),
+        events =
+            new List<Map<String, dynamic>>.from(jsonDecode(rawSQL['events']));
 
   Map<String, dynamic> toDB() {
     return <String, dynamic>{
@@ -31,11 +33,20 @@ class FriendModel {
       "firstName": firstName,
       "lastName": lastName,
       "email": email,
-      "phoneNumber": phoneNumber,
+      "phoneNumber": '$phoneNumber',
       "profilePicture": profilePicture,
       "relationship": relationship,
       "interests": jsonEncode(interests),
       "events": jsonEncode(events)
     };
+  }
+
+  static sortEvents(List<Map<String, dynamic>> events) {
+    for (var event in events) {
+      var sortedKeys = event.keys.toList(growable: false)
+        ..sort((a, b) => event[a].compareTo(event[b]));
+      LinkedHashMap sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
+          key: (k) => k, value: (k) => event[k]);
+    }
   }
 }

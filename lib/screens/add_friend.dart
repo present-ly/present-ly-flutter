@@ -26,7 +26,7 @@ class AddFriendState extends State<AddFriend> {
     '',
     '',
     [],
-    [],
+    {},
   );
 
   addEvent() {
@@ -54,8 +54,8 @@ class AddFriendState extends State<AddFriend> {
   submitAddFriendForm(context) async {
     this._createFriendFormKey.currentState.save();
     for (var i = 0; i < eventNumber; i++) {
-      friend.events.add(
-          {eventTextControllers[i].text: eventDates[i].millisecondsSinceEpoch});
+//      friend.events[eventTextControllers[i].text] = new Event( id: new Uuid(), name: eventTextControllers[i].text, time: eventDates[i].millisecondsSinceEpoch);
+
     }
     await this.db.addFriend(friend);
     Navigator.of(context).pop();
@@ -77,11 +77,11 @@ class AddFriendState extends State<AddFriend> {
     generateTextEditingControllers();
     List<Widget> list = List.generate(
       eventNumber,
-      (int i) => EventField(context, i),
+      (int i) => eventField(context, i),
     );
     List<Step> steps = [
       Step(
-        title: Text('Name'),
+        title: Text('Information'),
         isActive: true,
         state: StepState.indexed,
         content: Column(
@@ -96,51 +96,38 @@ class AddFriendState extends State<AddFriend> {
               textCapitalization: TextCapitalization.words,
               onSaved: (value) => friend.lastName = value,
             ),
+            TextFormField(
+              keyboardType: TextInputType.emailAddress,
+              decoration: InputDecoration(labelText: 'Email'),
+              onSaved: (value) => friend.email = value,
+            ),
+            TextFormField(
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(labelText: 'Phone'),
+              onSaved: (value) => friend.phoneNumber = value,
+            ),
+            TextFormField(
+              decoration:
+                  InputDecoration(labelText: "Relationship (e.g., spouse)"),
+              onSaved: (value) => friend.relationship = value,
+            ),
           ],
         ),
       ),
       Step(
-        title: Text('Email'),
+        title: Text('Events'),
         isActive: true,
         state: StepState.indexed,
-        content: TextFormField(
-          keyboardType: TextInputType.emailAddress,
-          decoration: InputDecoration(labelText: 'Email'),
-          onSaved: (value) => friend.email = value,
+        content: Column(
+          children: <Widget>[
+            Column(children: list),
+            RaisedButton(
+              onPressed: () => setState(() => this.eventNumber++),
+              child: Text('Add New Event'),
+            ),
+          ],
         ),
       ),
-      Step(
-        title: Text('Phone'),
-        isActive: true,
-        state: StepState.indexed,
-        content: TextFormField(
-          keyboardType: TextInputType.phone,
-          decoration: InputDecoration(labelText: 'Phone'),
-          onSaved: (value) => friend.phoneNumber = value,
-        ),
-      ),
-      Step(
-        title: Text('Relationship'),
-        isActive: true,
-        state: StepState.indexed,
-        content: TextFormField(
-          decoration: InputDecoration(labelText: "Relationship (e.g., spouse)"),
-          onSaved: (value) => friend.relationship = value,
-        ),
-      ),
-      Step(
-          title: Text('Events'),
-          isActive: true,
-          state: StepState.indexed,
-          content: Column(
-            children: <Widget>[
-              Column(children: list),
-              RaisedButton(
-                onPressed: () => setState(() => this.eventNumber++),
-                child: Text('Add New Event'),
-              ),
-            ],
-          )),
     ];
 
     return FriendsProvider(
@@ -211,7 +198,7 @@ class AddFriendState extends State<AddFriend> {
     );
   }
 
-  Widget EventField(BuildContext context, int index) {
+  Widget eventField(BuildContext context, int index) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[

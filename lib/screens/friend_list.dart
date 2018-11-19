@@ -52,6 +52,7 @@ class FriendListScreen extends StatelessWidget {
             itemCount: snapshot.data.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
+                onTap: () {},
                 leading: CircleAvatar(
                   backgroundColor: Colors.cyan,
                   child: Text(

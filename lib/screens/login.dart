@@ -100,7 +100,9 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 FlatButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "register");
+                  },
                   child: Text(
                     "REGISTER NOW",
                     style: TextStyle(

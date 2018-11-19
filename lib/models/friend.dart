@@ -1,5 +1,6 @@
-import 'dart:collection';
 import 'dart:convert';
+
+import 'package:presently/models/event.dart';
 
 class FriendModel {
   int id;
@@ -10,7 +11,7 @@ class FriendModel {
   String profilePicture;
   String relationship;
   List<String> interests;
-  List<Map<String, dynamic>> events;
+  Map<Event, Event> events;
 
   FriendModel(this.firstName, this.lastName, this.email, this.phoneNumber,
       this.profilePicture, this.relationship, this.interests, this.events);
@@ -24,8 +25,7 @@ class FriendModel {
         profilePicture = rawSQL['profilePicture'],
         relationship = rawSQL['relationship'],
         interests = new List<String>.from(jsonDecode(rawSQL['interests'])),
-        events =
-            new List<Map<String, dynamic>>.from(jsonDecode(rawSQL['events']));
+        events = jsonDecode(rawSQL['events']);
 
   Map<String, dynamic> toDB() {
     return <String, dynamic>{
@@ -41,12 +41,5 @@ class FriendModel {
     };
   }
 
-  static sortEvents(List<Map<String, dynamic>> events) {
-    for (var event in events) {
-      var sortedKeys = event.keys.toList(growable: false)
-        ..sort((a, b) => event[a].compareTo(event[b]));
-      LinkedHashMap sortedMap = new LinkedHashMap.fromIterable(sortedKeys,
-          key: (k) => k, value: (k) => event[k]);
-    }
-  }
+  static sortEvents(Map<String, dynamic> events) {}
 }

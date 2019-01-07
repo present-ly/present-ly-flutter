@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:presently/models/event.dart';
 
 class FriendModel {
-  int id;
+  String id;
   String firstName;
   String lastName;
   String email;
@@ -11,7 +11,7 @@ class FriendModel {
   String profilePicture;
   String relationship;
   List<String> interests;
-  Map<Event, Event> events;
+  Map<String, EventModel> events;
 
   FriendModel(this.firstName, this.lastName, this.email, this.phoneNumber,
       this.profilePicture, this.relationship, this.interests, this.events);
@@ -41,5 +41,11 @@ class FriendModel {
     };
   }
 
-  static sortEvents(Map<String, dynamic> events) {}
+  //Pull out all of the events put them in a list.
+
+  static List<EventModel> sortEvents(Map<String, EventModel> events) {
+    var eventList = new List.of(events.values);
+    eventList.sort();
+    return eventList;
+  }
 }

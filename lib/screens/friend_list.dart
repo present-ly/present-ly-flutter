@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:presently/blocs/friend_bloc.dart';
 import 'package:presently/models/friend.dart';
 import 'package:presently/screens/add_friend.dart';
+import 'package:presently/screens/friend_detail.dart';
 
 class FriendListScreen extends StatelessWidget {
   String generateInitials(String firstName, String lastName) {
@@ -52,7 +53,12 @@ class FriendListScreen extends StatelessWidget {
             itemCount: snapshot.data.length,
             itemBuilder: (BuildContext context, int index) {
               return ListTile(
-                onTap: () {},
+                onTap: () => Navigator.of(context).push(
+                      new PageRouteBuilder(
+                        pageBuilder: (_, __, ___) =>
+                            new FriendDetail(friend: snapshot.data[index]),
+                      ),
+                    ),
                 leading: CircleAvatar(
                   backgroundColor: Colors.cyan,
                   child: Text(

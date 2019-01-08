@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:presently/services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -9,6 +10,15 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  String _email = '';
+  String _password = '';
+  final authService = new AuthService();
+
+  login() async {
+    _loginFormKey.currentState.save();
+    await authService.login(_email, _password, true);
+  }
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -37,26 +47,28 @@ class LoginScreenState extends State<LoginScreen> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),
                             child: TextFormField(
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(labelText: 'Email'),
-                            ),
+                                keyboardType: TextInputType.emailAddress,
+                                decoration: InputDecoration(labelText: 'Email'),
+                                onSaved: (String value) {
+                                  this._email = value;
+                                }),
                           ),
                           Padding(
                             padding: const EdgeInsets.only(bottom: 16.0),
                             child: TextFormField(
-                              obscureText: true,
-                              decoration:
-                                  InputDecoration(labelText: 'Password'),
-                            ),
+                                obscureText: true,
+                                decoration:
+                                    InputDecoration(labelText: 'Password'),
+                                onSaved: (String value) {
+                                  this._password = value;
+                                }),
                           ),
                           Container(
                             width: 200.0,
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100.0)),
-                              onPressed: () => Navigator.of(context)
-                                  .pushNamedAndRemoveUntil('navbar',
-                                      (Route<dynamic> route) => false),
+                              onPressed: () => login(),
                               color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),

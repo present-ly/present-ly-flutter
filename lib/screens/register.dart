@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:presently/models/user.dart';
+import 'package:presently/services/auth_service.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  RegisterScreenState createState() {
+    return new RegisterScreenState();
+  }
+}
+
+class RegisterScreenState extends State<RegisterScreen> {
+  final GlobalKey<FormState> _registerFormKey = new GlobalKey<FormState>();
+  final user = new UserModel('', '', '', '', '', '', '', false, [], '', [], []);
+  final authService = new AuthService();
+
+  register() {
+    this._registerFormKey.currentState.save();
+    this.authService.register(user);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,41 +33,38 @@ class RegisterScreen extends StatelessWidget {
               horizontal: 24.0,
             ),
             child: Form(
+              key: _registerFormKey,
               child: Column(
                 children: <Widget>[
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'First Name'),
-//              onSaved: (value) => friend.email = value,
+                    onSaved: (value) => user.firstName = value,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Last Name'),
-//              onSaved: (value) => friend.email = value,
+                    onSaved: (value) => user.lastName = value,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Email'),
-
-//              onSaved: (value) => friend.email = value,
+                    onSaved: (value) => user.email = value,
                   ),
                   TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Confirm Email'),
-
-//              onSaved: (value) => friend.email = value,
                   ),
                   TextFormField(
                     obscureText: true,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Password'),
-//              onSaved: (value) => friend.email = value,
+                    onSaved: (value) => user.password = value,
                   ),
                   TextFormField(
                     obscureText: true,
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(labelText: 'Confirm Password'),
-//              onSaved: (value) => friend.email = value,
                   ),
                 ],
               ),
@@ -62,7 +77,7 @@ class RegisterScreen extends StatelessWidget {
             width: double.infinity,
             child: RaisedButton(
               color: Theme.of(context).accentColor,
-              onPressed: () {},
+              onPressed: () => register(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: Text(

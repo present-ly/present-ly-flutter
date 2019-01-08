@@ -62,13 +62,13 @@ class FriendListScreen extends StatelessWidget {
                 leading: CircleAvatar(
                   backgroundColor: Colors.cyan,
                   child: Text(
-                    generateInitials(snapshot.data[index].firstName,
-                        snapshot.data[index].lastName),
+                    generateInitials(snapshot.data[index].profile.firstName,
+                        snapshot.data[index].profile.lastName),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
                 title: Text(
-                    '${snapshot.data[index].firstName} ${snapshot.data[index].lastName}'),
+                    '${snapshot.data[index].profile.firstName} ${snapshot.data[index].profile.lastName}'),
                 subtitle: Text('Birthday: January 15th'),
                 trailing: Icon(Icons.card_giftcard),
               );

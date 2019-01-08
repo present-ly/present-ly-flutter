@@ -21,7 +21,7 @@ class DatabaseService {
     db = await openDatabase(path, version: 1,
         onCreate: (Database newDb, int version) {
       newDb.execute("""
-      CREATE TABLE Friends(
+      CREATE TABLE Auth(
       id STRING PRIMARY KEY,
       firstName STRING,
       lastName STRING,
@@ -49,7 +49,7 @@ class DatabaseService {
     print(results);
     for (var result in results.toList()) {
       print(result);
-      friends.add(new FriendModel.fromDb(result));
+//      friends.add(new FriendModel.fromDb(result));
     }
     return friends;
   }
@@ -66,13 +66,14 @@ class DatabaseService {
     final friend = await db
         .query("Friends", columns: null, where: "id = ?", whereArgs: [id]);
     if (friend.length > 0) {
-      return FriendModel.fromDb(friend.first);
+//      return FriendModel.fromDb(friend.first);
     }
     return null;
   }
 
   Future<int> addFriend(FriendModel friend) async {
-    return db.insert("Friends", friend.toDB());
+    return 1;
+//    return db.insert("Friends", friend.toDB());
   }
 }
 

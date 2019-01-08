@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:presently/blocs/friend_bloc.dart';
-import 'package:presently/models/friend.dart';
 import 'package:presently/services/db.dart';
 
 class AddFriend extends StatefulWidget {
@@ -18,16 +17,6 @@ class AddFriendState extends State<AddFriend> {
   final DateTime _date = DateTime.now();
   final _createFriendFormKey = GlobalKey<FormState>();
   final DatabaseService db = dbService;
-  FriendModel friend = new FriendModel(
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    [],
-    {},
-  );
 
   addEvent() {
     this.eventNumber++;
@@ -57,7 +46,7 @@ class AddFriendState extends State<AddFriend> {
 //      friend.events[eventTextControllers[i].text] = new Event( id: new Uuid(), name: eventTextControllers[i].text, time: eventDates[i].millisecondsSinceEpoch);
 
     }
-    await this.db.addFriend(friend);
+//    await this.db.addFriend(friend);
     Navigator.of(context).pop();
   }
 
@@ -89,27 +78,27 @@ class AddFriendState extends State<AddFriend> {
             TextFormField(
               decoration: InputDecoration(labelText: 'First Name'),
               textCapitalization: TextCapitalization.words,
-              onSaved: (value) => friend.firstName = value,
+//              onSaved: (value) => friend.firstName = value,
             ),
             TextFormField(
               decoration: InputDecoration(labelText: 'Last Name'),
               textCapitalization: TextCapitalization.words,
-              onSaved: (value) => friend.lastName = value,
+//              onSaved: (value) => friend.lastName = value,
             ),
             TextFormField(
               keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(labelText: 'Email'),
-              onSaved: (value) => friend.email = value,
+//              onSaved: (value) => friend.email = value,
             ),
             TextFormField(
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(labelText: 'Phone'),
-              onSaved: (value) => friend.phoneNumber = value,
+//              onSaved: (value) => friend.phoneNumber = value,
             ),
             TextFormField(
               decoration:
                   InputDecoration(labelText: "Relationship (e.g., spouse)"),
-              onSaved: (value) => friend.relationship = value,
+//              onSaved: (value) => friend.relationship = value,
             ),
           ],
         ),

@@ -7,7 +7,7 @@ class FriendDetail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("${friend.firstName}"),
+      child: Text("${friend.profile.firstName}"),
     );
   }
 }

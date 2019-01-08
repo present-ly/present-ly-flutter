@@ -9,9 +9,11 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   final GlobalKey<FormState> _loginFormKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      key: _scaffoldKey,
       resizeToAvoidBottomPadding: false,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -54,9 +56,14 @@ class LoginScreenState extends State<LoginScreen> {
                             child: RaisedButton(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(100.0)),
-                              onPressed: () => Navigator.of(context)
-                                  .pushNamedAndRemoveUntil('navbar',
-                                      (Route<dynamic> route) => false),
+                              onPressed: () {
+                                final snackbar = SnackBar(
+                                    content: Text('SNACKBAR ERROR TEXT!'));
+                                _scaffoldKey.currentState
+                                    .showSnackBar(snackbar);
+                                // Navigator.of(context).pushNamedAndRemoveUntil(
+                                //'navbar', (Route<dynamic> route) => false);
+                              },
                               color: Colors.white,
                               child: Padding(
                                 padding: const EdgeInsets.all(12.0),

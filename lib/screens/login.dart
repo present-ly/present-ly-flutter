@@ -17,7 +17,7 @@ class LoginScreenState extends State<LoginScreen> {
 
   login() async {
     _loginFormKey.currentState.save();
-    await authService.login(_email, _password, true);
+    var returnedUser = await authService.login(_email, _password, true);
   }
 
   @override

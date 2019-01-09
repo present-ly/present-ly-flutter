@@ -3,7 +3,7 @@ import 'package:presently/models/user.dart';
 
 class AuthService {
   final url = "http://localhost:3000/auth";
-  Future<String> login(String email, String password, bool remember) async {
+  Future<UserModel> login(String email, String password, bool remember) async {
     var loginCredentials = {
       "email": email,
       "password": password,

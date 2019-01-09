@@ -27,113 +27,134 @@ class LoginScreenState extends State<LoginScreen> {
       resizeToAvoidBottomPadding: false,
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 16.0),
-        color: Theme.of(context).primaryColor,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              stops: [0, 1],
+              colors: [Theme.of(context).primaryColor, Color(0xffB480F6)]),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(
+            Container(
+              padding: EdgeInsets.all(24.0),
+              margin: EdgeInsets.only(bottom: 32.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      spreadRadius: 4.0,
+                      blurRadius: 12.0,
+                      offset: Offset(4.0, 8.0),
+                      color: Colors.black12,
+                    )
+                  ]),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Image.asset("assets/images/presently-logo.png",
-                      fit: BoxFit.contain),
-                  Theme(
-                    data: ThemeData(
-                      primaryColor: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16.0, bottom: 16.0),
+                    child: Image.asset(
+                      "assets/images/przzy-plum.png",
+                      fit: BoxFit.contain,
                     ),
-                    child: Form(
-                      key: _loginFormKey,
-                      child: Column(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                decoration: InputDecoration(labelText: 'Email'),
-                                onSaved: (String value) {
-                                  this._email = value;
-                                }),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 16.0),
-                            child: TextFormField(
-                                obscureText: true,
-                                decoration:
-                                    InputDecoration(labelText: 'Password'),
-                                onSaved: (String value) {
-                                  this._password = value;
-                                }),
-                          ),
-                          Container(
-                            width: 200.0,
-                            child: RaisedButton(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(100.0)),
-                              onPressed: () {
-                                login();
-                                final snackbar = SnackBar(
-                                    content: Text('SNACKBAR ERROR TEXT!'));
-                                _scaffoldKey.currentState
-                                    .showSnackBar(snackbar);
-                                // Navigator.of(context).pushNamedAndRemoveUntil(
-                                //'navbar', (Route<dynamic> route) => false);
-                              },
-                              color: Colors.white,
-                              child: Padding(
-                                padding: const EdgeInsets.all(12.0),
-                                child: Text(
-                                  'LOGIN',
-                                  style: TextStyle(
-                                    color: Theme.of(context).accentColor,
-                                    fontSize: 20.0,
-                                  ),
-                                ),
-                              ),
+                  ),
+                  Form(
+                    key: _loginFormKey,
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TextFormField(
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: InputDecoration(labelText: 'Email'),
+                              onSaved: (String value) {
+                                this._email = value;
+                              }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16.0),
+                          child: TextFormField(
+                              obscureText: true,
+                              decoration:
+                                  InputDecoration(labelText: 'Password'),
+                              onSaved: (String value) {
+                                this._password = value;
+                              }),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 8.0),
+                          child: FlatButton(
+                            onPressed: () {},
+                            textColor: Theme.of(context).primaryColor,
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(fontSize: 20.0),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: FlatButton(
-                              onPressed: () {},
-                              textColor: Colors.white,
-                              child: Text(
-                                'Forgot Password?',
-                                style: TextStyle(fontSize: 20.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16.0, bottom: 4.0),
-                  child: Text(
-                    "Don't have an account?",
-                    style: TextStyle(
-                        fontSize: 20.0, color: Colors.white.withOpacity(0.8)),
+            Container(
+              margin: EdgeInsets.only(bottom: 40.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: Container(
+                      width: 200.0,
+                      child: RaisedButton(
+                        onPressed: () {
+                          login();
+                          final snackbar =
+                              SnackBar(content: Text('SNACKBAR ERROR TEXT!'));
+                          _scaffoldKey.currentState.showSnackBar(snackbar);
+                          // Navigator.of(context).pushNamedAndRemoveUntil(
+                          //'navbar', (Route<dynamic> route) => false);
+                        },
+                        color: Theme.of(context).primaryColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: Text(
+                            'LOGIN',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-                FlatButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, "register");
-                  },
-                  child: Text(
-                    "REGISTER NOW",
-                    style: TextStyle(
-                        fontSize: 24.0,
-                        color: Colors.white,
-                        fontWeight: FontWeight.w400),
+                  Container(
+                    width: 200.0,
+                    child: RaisedButton(
+                      color: Colors.white,
+                      onPressed: () {
+                        Navigator.pushNamed(context, "register");
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          "SIGN UP",
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            color: Color(0xff6378EA),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

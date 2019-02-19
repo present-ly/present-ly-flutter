@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:presently/models/user.dart';
 
@@ -11,7 +13,9 @@ class AuthService {
     };
     final response = await http.post("$url/login", body: loginCredentials);
     if (response.statusCode == 201 || response.statusCode == 200) {
-      print(response.body);
+      Map userMap = jsonDecode(response.body);
+      UserModel user = new UserModel.fromJson(userMap);
+      return user;
     } else {}
   }
 

@@ -15,9 +15,18 @@ class LoginScreenState extends State<LoginScreen> {
   String _password = '';
   final authService = new AuthService();
 
-  login() async {
+  login(BuildContext context) async {
     _loginFormKey.currentState.save();
     var returnedUser = await authService.login(_email, _password, true);
+    if (returnedUser?.token != null) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, 'home', (Route<dynamic> route) => false);
+    } else {
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: new Text('Error:'),
+        duration: new Duration(seconds: 10),
+      ));
+    }
   }
 
   @override
@@ -113,12 +122,9 @@ class LoginScreenState extends State<LoginScreen> {
                       width: 200.0,
                       child: RaisedButton(
                         onPressed: () {
-                          login();
+                          login(context);
                           final snackbar =
                               SnackBar(content: Text('SNACKBAR ERROR TEXT!'));
-                          _scaffoldKey.currentState.showSnackBar(snackbar);
-                          // Navigator.of(context).pushNamedAndRemoveUntil(
-                          //'navbar', (Route<dynamic> route) => false);
                         },
                         color: Theme.of(context).primaryColor,
                         child: Padding(

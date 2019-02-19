@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:presently/blocs/friend_bloc.dart';
-import 'package:presently/services/db.dart';
 
 class AddFriend extends StatefulWidget {
   @override
@@ -16,7 +15,6 @@ class AddFriendState extends State<AddFriend> {
   int eventNumber = 1;
   final DateTime _date = DateTime.now();
   final _createFriendFormKey = GlobalKey<FormState>();
-  final DatabaseService db = dbService;
 
   addEvent() {
     this.eventNumber++;
